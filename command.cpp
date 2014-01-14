@@ -17,6 +17,8 @@ void Command::setCommand(const QString &command)
 
 QString Command::execute()
 {
+    if(m_process)
+        delete(m_process);
     m_process = new QProcess(this);
     m_process->start(m_command);
     m_process->waitForReadyRead(-1);
@@ -27,6 +29,8 @@ QString Command::execute()
 
 void Command::executeAsync()
 {
+    if(m_process)
+        delete(m_process);
     m_process = new QProcess(this);
     connect(m_process, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(readStandardOutput()));
     m_process->start(m_command);
